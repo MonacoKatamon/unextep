@@ -1,4 +1,13 @@
-import SetupWizard from '@/components/setup/setup-wizard';
+import dynamic from 'next/dynamic';
+
+// Prevent any server-side rendering of the setup page
+const SetupPageClient = dynamic(
+  () => import('@/components/setup/setup-page-client'),
+  {
+    ssr: false,
+    loading: () => <div>Loading setup...</div>
+  }
+);
 
 export const metadata = {
   title: 'Setup - Unextep',
@@ -6,7 +15,5 @@ export const metadata = {
 };
 
 export default function SetupPage() {
-  return (
-    <SetupWizard />
-  );
+  return <SetupPageClient />;
 } 

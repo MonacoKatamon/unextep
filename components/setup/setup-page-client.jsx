@@ -1,7 +1,12 @@
 'use client';
 
 import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
+
+const SetupWizard = dynamic(() => import('@/components/setup/setup-wizard'), {
+  loading: () => <div>Loading wizard...</div>
+});
 
 function SearchParamsWrapper({ children }) {
   const searchParams = useSearchParams();
@@ -9,11 +14,11 @@ function SearchParamsWrapper({ children }) {
   return children({ initialPlan });
 }
 
-export default function ClientWrapper({ children }) {
+export default function SetupPageClient() {
   return (
-    <Suspense fallback={<div>Loading parameters...</div>}>
+    <Suspense fallback={<div>Loading setup...</div>}>
       <SearchParamsWrapper>
-        {(props) => children(props)}
+        {(props) => <SetupWizard {...props} />}
       </SearchParamsWrapper>
     </Suspense>
   );
